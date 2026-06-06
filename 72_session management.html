@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+}
+
+.container{
+    width:420px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.2);
+    box-shadow:0 15px 35px rgba(0,0,0,0.4);
+    color:white;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.15);
+    color:white;
+}
+
+input::placeholder{
+    color:#ddd;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:10px;
+    transition:.3s;
+}
+
+.login-btn{
+    background:#22c55e;
+    color:white;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+}
+
+.logout-btn{
+    background:#ef4444;
+    color:white;
+}
+
+.card{
+    margin-top:20px;
+    padding:15px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.08);
+}
+
+.info{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+}
+
+.active{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.inactive{
+    color:#ef4444;
+    font-weight:bold;
+}
+
+.timer{
+    text-align:center;
+    font-size:24px;
+    margin-top:15px;
+    color:#38bdf8;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔐 Session Management</h1>
+
+    <div class="input-group">
+        <input type="text" id="username" placeholder="Enter Username">
+    </div>
+
+    <button class="login-btn" onclick="loginUser()">Start Session</button>
+
+    <div class="card">
+
+        <div class="info">
+            <span>Status</span>
+            <span id="status" class="inactive">Inactive</span>
+        </div>
+
+        <div class="info">
+            <span>User</span>
+            <span id="user">-</span>
+        </div>
+
+        <div class="info">
+            <span>Session ID</span>
+            <span id="sessionId">-</span>
+        </div>
+
+        <div class="info">
+            <span>Login Time</span>
+            <span id="loginTime">-</span>
+        </div>
+
+        <div class="timer" id="timer">
+            00:00
+        </div>
+
+    </div>
+
+    <button class="logout-btn" onclick="logoutUser()">End Session</button>
+
+</div>
+
+<script>
+
+let countdown;
+let timeLeft = 300; // 5 Minutes
+
+function generateSessionID(){
+    return 'SID-' + Math.random().toString(36).substr(2,10).toUpperCase();
+}
+
+function loginUser(){
+
+    let username=document.getElementById("username").value;
+
+    if(username===""){
+        alert("Enter Username");
+        return;
+    }
+
+    const sessionID=generateSessionID();
+
+    sessionStorage.setItem("username",username);
+    sessionStorage.setItem("sessionID",sessionID);
+
+    document.getElementById("status").innerHTML="Active";
+    document.getElementById("status").className="active";
+
+    document.getElementById("user").innerHTML=username;
+    document.getElementById("sessionId").innerHTML=sessionID;
+
+    const loginTime=new Date().toLocaleTimeString();
+    document.getElementById("loginTime").innerHTML=loginTime;
+
+    startTimer();
+}
+
+function startTimer(){
+
+    clearInterval(countdown);
+
+    timeLeft=300;
+
+    countdown=setInterval(()=>{
+
+        let minutes=Math.floor(timeLeft/60);
+        let seconds=timeLeft%60;
+
+        document.getElementById("timer").innerHTML=
+        `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+
+        timeLeft--;
+
+        if(timeLeft<0){
+            logoutUser();
+            alert("Session Expired!");
+        }
+
+    },1000);
+}
+
+function logoutUser(){
+
+    clearInterval(countdown);
+
+    sessionStorage.clear();
+
+    document.getElementById("status").innerHTML="Inactive";
+    document.getElementById("status").className="inactive";
+
+    document.getElementById("user").innerHTML="-";
+    document.getElementById("sessionId").innerHTML="-";
+    document.getElementById("loginTime").innerHTML="-";
+    document.getElementById("timer").innerHTML="00:00";
+}
+
+</script>
+
+</body>
+</html>
