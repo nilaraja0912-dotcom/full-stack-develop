@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ERP Application Dashboard</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.08);
+        padding: 20px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .value {
+        font-size: 28px;
+        margin-top: 10px;
+        color: #00c6ff;
+    }
+
+    .section {
+        padding: 20px;
+    }
+
+    input, select {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        margin: 5px;
+        outline: none;
+    }
+
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
+        background: #00c6ff;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #0072ff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background: rgba(0,0,0,0.4);
+    }
+
+    tr {
+        background: rgba(255,255,255,0.05);
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .delete-btn {
+        background: #ff4b5c;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .delete-btn:hover {
+        background: #ff1e3c;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="header">🏢 ERP System Dashboard</div>
+
+<!-- DASHBOARD CARDS -->
+<div class="dashboard">
+    <div class="card">
+        📊 Employees
+        <div class="value" id="empCount">2</div>
+    </div>
+
+    <div class="card">
+        📦 Inventory Items
+        <div class="value">120</div>
+    </div>
+
+    <div class="card">
+        💰 Revenue
+        <div class="value">$45,000</div>
+    </div>
+
+    <div class="card">
+        🏢 Departments
+        <div class="value">5</div>
+    </div>
+</div>
+
+<!-- EMPLOYEE MANAGEMENT -->
+<div class="section">
+    <h2>👨‍💼 Employee Management</h2>
+
+    <input type="text" id="name" placeholder="Employee Name">
+    <input type="text" id="dept" placeholder="Department">
+    <select id="role">
+        <option>Manager</option>
+        <option>Developer</option>
+        <option>Analyst</option>
+        <option>HR</option>
+    </select>
+
+    <button onclick="addEmployee()">Add Employee</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="empTable"></tbody>
+    </table>
+</div>
+
+<script>
+    let employees = [
+        { id: 1, name: "Nila", dept: "IT", role: "Developer" },
+        { id: 2, name: "pawya", dept: "HR", role: "Manager" }
+    ];
+
+    function renderEmployees() {
+        const table = document.getElementById("empTable");
+        table.innerHTML = "";
+
+        document.getElementById("empCount").innerText = employees.length;
+
+        employees.forEach(e => {
+            table.innerHTML += `
+                <tr>
+                    <td>${e.id}</td>
+                    <td>${e.name}</td>
+                    <td>${e.dept}</td>
+                    <td>${e.role}</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteEmp(${e.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function addEmployee() {
+        const name = document.getElementById("name").value;
+        const dept = document.getElementById("dept").value;
+        const role = document.getElementById("role").value;
+
+        if (!name || !dept) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        employees.push({
+            id: employees.length + 1,
+            name,
+            dept,
+            role
+        });
+
+        document.getElementById("name").value = "";
+        document.getElementById("dept").value = "";
+
+        renderEmployees();
+    }
+
+    function deleteEmp(id) {
+        employees = employees.filter(e => e.id !== id);
+        renderEmployees();
+    }
+
+    renderEmployees();
+</script>
+
+</body>
+</html>

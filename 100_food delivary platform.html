@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Food Delivery App</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff512f, #dd2476);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        background: rgba(0,0,0,0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .menu {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.1);
+        padding: 15px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .price {
+        color: #00ffcc;
+        font-size: 18px;
+        margin: 5px 0;
+    }
+
+    button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 8px;
+        background: #00c6ff;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #0072ff;
+    }
+
+    .cart {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 10px;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+    .total {
+        font-size: 18px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .order-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        background: #00c851;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .order-btn:hover {
+        background: #00a844;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="header">🍔 Food Delivery Platform</div>
+
+<div class="container">
+
+    <!-- MENU -->
+    <h3>Menu</h3>
+    <div class="menu">
+
+        <div class="card">
+            <h4>Pizza</h4>
+            <div class="price">₹250</div>
+            <button onclick="addToCart('Pizza',250)">Add to Cart</button>
+        </div>
+
+        <div class="card">
+            <h4>Burger</h4>
+            <div class="price">₹120</div>
+            <button onclick="addToCart('Burger',120)">Add to Cart</button>
+        </div>
+
+        <div class="card">
+            <h4>Fried Rice</h4>
+            <div class="price">₹180</div>
+            <button onclick="addToCart('Fried Rice',180)">Add to Cart</button>
+        </div>
+
+        <div class="card">
+            <h4>Ice Cream</h4>
+            <div class="price">₹90</div>
+            <button onclick="addToCart('Ice Cream',90)">Add to Cart</button>
+        </div>
+
+    </div>
+
+    <!-- CART -->
+    <div class="cart">
+        <h3>🛒 Cart</h3>
+        <div id="cartItems"></div>
+        <div class="total">Total: ₹<span id="total">0</span></div>
+        <button class="order-btn" onclick="placeOrder()">Place Order</button>
+    </div>
+
+</div>
+
+<script>
+    let cart = [];
+
+    function addToCart(item, price) {
+        cart.push({ item, price });
+        renderCart();
+    }
+
+    function renderCart() {
+        const cartDiv = document.getElementById("cartItems");
+        cartDiv.innerHTML = "";
+
+        let total = 0;
+
+        cart.forEach((c, index) => {
+            total += c.price;
+
+            cartDiv.innerHTML += `
+                <div class="cart-item">
+                    <span>${c.item}</span>
+                    <span>₹${c.price}</span>
+                </div>
+            `;
+        });
+
+        document.getElementById("total").innerText = total;
+    }
+
+    function placeOrder() {
+        if (cart.length === 0) {
+            alert("Cart is empty!");
+            return;
+        }
+
+        alert("🎉 Order placed successfully!");
+        cart = [];
+        renderCart();
+    }
+</script>
+
+</body>
+</html>

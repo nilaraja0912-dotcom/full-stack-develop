@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Attendance Management System</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .form {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .form input {
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .form button {
+        grid-column: span 3;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: #00c6ff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .form button:hover {
+        background: #0072ff;
+        transform: scale(1.03);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background: rgba(0,0,0,0.4);
+    }
+
+    tr {
+        background: rgba(255,255,255,0.05);
+        transition: 0.3s;
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .btn {
+        padding: 6px 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+        margin: 2px;
+    }
+
+    .present { background: #00c851; }
+    .absent { background: #ff4b5c; }
+    .delete { background: #ff9800; }
+
+    .badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        background: #00c6ff;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="header">📋 Attendance Management System</div>
+
+<div class="container">
+
+    <!-- FORM -->
+    <div class="form">
+        <input type="text" id="name" placeholder="Student Name">
+        <input type="text" id="class" placeholder="Class">
+        <input type="number" id="roll" placeholder="Roll No">
+        <button onclick="addStudent()">Add Student</button>
+    </div>
+
+    <!-- TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Roll No</th>
+                <th>Status</th>
+                <th>Attendance %</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="attendanceTable"></tbody>
+    </table>
+
+</div>
+
+<script>
+    let students = [
+        { id: 1, name: "Nila", class: "AI & DS", roll: 101, present: 8, total: 10 },
+        { id: 2, name: "pawya", class: "CSE", roll: 102, present: 6, total: 10 }
+    ];
+
+    function renderTable() {
+        const table = document.getElementById("attendanceTable");
+        table.innerHTML = "";
+
+        students.forEach(s => {
+            let percent = Math.round((s.present / s.total) * 100);
+
+            table.innerHTML += `
+                <tr>
+                    <td>${s.id}</td>
+                    <td>${s.name}</td>
+                    <td>${s.class}</td>
+                    <td>${s.roll}</td>
+                    <td><span class="badge">${percent >= 75 ? "Good" : "Low"}</span></td>
+                    <td>${percent}%</td>
+                    <td>
+                        <button class="btn present" onclick="markPresent(${s.id})">Present</button>
+                        <button class="btn absent" onclick="markAbsent(${s.id})">Absent</button>
+                        <button class="btn delete" onclick="deleteStudent(${s.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function addStudent() {
+        const name = document.getElementById("name").value;
+        const cls = document.getElementById("class").value;
+        const roll = document.getElementById("roll").value;
+
+        if (!name || !cls || !roll) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        students.push({
+            id: students.length + 1,
+            name,
+            class: cls,
+            roll,
+            present: 0,
+            total: 0
+        });
+
+        document.getElementById("name").value = "";
+        document.getElementById("class").value = "";
+        document.getElementById("roll").value = "";
+
+        renderTable();
+    }
+
+    function markPresent(id) {
+        students = students.map(s => {
+            if (s.id === id) {
+                s.present++;
+                s.total++;
+            }
+            return s;
+        });
+        renderTable();
+    }
+
+    function markAbsent(id) {
+        students = students.map(s => {
+            if (s.id === id) {
+                s.total++;
+            }
+            return s;
+        });
+        renderTable();
+    }
+
+    function deleteStudent(id) {
+        students = students.filter(s => s.id !== id);
+        renderTable();
+    }
+
+    renderTable();
+</script>
+
+</body>
+</html>

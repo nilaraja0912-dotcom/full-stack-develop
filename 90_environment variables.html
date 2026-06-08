@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Environment Variables Demo</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #1f1c2c, #928dab);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.1);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+        width: 350px;
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    .env-box {
+        background: rgba(0,0,0,0.3);
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-size: 14px;
+        word-break: break-word;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #00c6ff;
+        color: white;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #0072ff;
+        transform: scale(1.05);
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🌿 Env Variables Demo</h2>
+
+    <div class="env-box">
+        API_URL: <span id="apiUrl"></span>
+    </div>
+
+    <div class="env-box">
+        APP_MODE: <span id="appMode"></span>
+    </div>
+
+    <div class="env-box">
+        SECRET_KEY: <span id="secretKey"></span>
+    </div>
+
+    <button onclick="loadEnv()">Load Environment Variables</button>
+</div>
+
+<script>
+    // Simulating environment variables (normally from .env file / backend)
+    const ENV = {
+        API_URL: "https://api.myapp.com/v1",
+        APP_MODE: "development",
+        SECRET_KEY: "*****HIDDEN*****"
+    };
+
+    function loadEnv() {
+        document.getElementById("apiUrl").innerText = ENV.API_URL;
+        document.getElementById("appMode").innerText = ENV.APP_MODE;
+        document.getElementById("secretKey").innerText = ENV.SECRET_KEY;
+    }
+</script>
+
+</body>
+</html>

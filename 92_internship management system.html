@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Internship Management System</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 900px;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .form {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .form input, .form select {
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .form button {
+        grid-column: span 4;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: #00c6ff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .form button:hover {
+        background: #0072ff;
+        transform: scale(1.03);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background: rgba(0,0,0,0.4);
+    }
+
+    tr {
+        background: rgba(255,255,255,0.05);
+        transition: 0.3s;
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+    }
+
+    .applied { background: #ffb703; }
+    .selected { background: #00c851; }
+    .rejected { background: #ff4b5c; }
+
+    .delete-btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 8px;
+        background: #ff4b5c;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .delete-btn:hover {
+        background: #ff1e3c;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🎓 Internship Management System</h2>
+
+    <div class="form">
+        <input type="text" id="name" placeholder="Student Name">
+        <input type="text" id="company" placeholder="Company Name">
+        <input type="text" id="role" placeholder="Role">
+        <select id="status">
+            <option value="Applied">Applied</option>
+            <option value="Selected">Selected</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+        <button onclick="addInternship()">Add Internship</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="internTable"></tbody>
+    </table>
+</div>
+
+<script>
+    let internships = [
+        { id: 1, name: "Nila", company: "Google", role: "Frontend Intern", status: "Applied" },
+        { id: 2, name: "pawya", company: "Microsoft", role: "AI Intern", status: "Selected" }
+    ];
+
+    function renderTable() {
+        const table = document.getElementById("internTable");
+        table.innerHTML = "";
+
+        internships.forEach(item => {
+            table.innerHTML += `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.company}</td>
+                    <td>${item.role}</td>
+                    <td>
+                        <span class="badge ${item.status.toLowerCase()}">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteIntern(${item.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function addInternship() {
+        const name = document.getElementById("name").value;
+        const company = document.getElementById("company").value;
+        const role = document.getElementById("role").value;
+        const status = document.getElementById("status").value;
+
+        if (!name || !company || !role) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        const newIntern = {
+            id: internships.length + 1,
+            name,
+            company,
+            role,
+            status
+        };
+
+        internships.push(newIntern);
+
+        document.getElementById("name").value = "";
+        document.getElementById("company").value = "";
+        document.getElementById("role").value = "";
+        document.getElementById("status").value = "Applied";
+
+        renderTable();
+    }
+
+    function deleteIntern(id) {
+        internships = internships.filter(i => i.id !== id);
+        renderTable();
+    }
+
+    renderTable();
+</script>
+
+</body>
+</html>

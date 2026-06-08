@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LMS Platform</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: white;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 30px;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+    }
+
+    .navbar h2 {
+        margin: 0;
+    }
+
+    .container {
+        padding: 30px;
+    }
+
+    .search-box {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        margin-bottom: 20px;
+    }
+
+    .courses {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.08);
+        padding: 20px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 10px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+
+    .progress {
+        height: 10px;
+        border-radius: 10px;
+        background: #00c6ff;
+    }
+
+    button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 8px;
+        background: #00c6ff;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #0072ff;
+    }
+
+    .enrolled {
+        background: #00c851 !important;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <h2>🎓 LMS Platform</h2>
+    <div>Student Dashboard</div>
+</div>
+
+<div class="container">
+
+    <input class="search-box" type="text" placeholder="Search courses..." onkeyup="searchCourse()">
+
+    <div class="courses" id="courseList"></div>
+
+</div>
+
+<script>
+    let courses = [
+        { id: 1, title: "HTML & CSS Basics", progress: 70, enrolled: false },
+        { id: 2, title: "JavaScript Mastery", progress: 40, enrolled: false },
+        { id: 3, title: "React JS Course", progress: 20, enrolled: false },
+        { id: 4, title: "Node.js Backend", progress: 55, enrolled: false },
+        { id: 5, title: "Data Structures", progress: 80, enrolled: false }
+    ];
+
+    function renderCourses(data = courses) {
+        const list = document.getElementById("courseList");
+        list.innerHTML = "";
+
+        data.forEach(course => {
+            list.innerHTML += `
+                <div class="card">
+                    <h3>${course.title}</h3>
+
+                    <div class="progress-bar">
+                        <div class="progress" style="width:${course.progress}%"></div>
+                    </div>
+
+                    <p>Progress: ${course.progress}%</p>
+
+                    <button onclick="toggleEnroll(${course.id}, this)" 
+                        class="${course.enrolled ? 'enrolled' : ''}">
+                        ${course.enrolled ? 'Enrolled' : 'Enroll'}
+                    </button>
+                </div>
+            `;
+        });
+    }
+
+    function toggleEnroll(id, btn) {
+        courses = courses.map(c => {
+            if (c.id === id) {
+                c.enrolled = !c.enrolled;
+                c.progress = c.enrolled ? c.progress + 10 : c.progress - 10;
+            }
+            return c;
+        });
+
+        renderCourses();
+    }
+
+    function searchCourse() {
+        const value = document.querySelector(".search-box").value.toLowerCase();
+        const filtered = courses.filter(c => c.title.toLowerCase().includes(value));
+        renderCourses(filtered);
+    }
+
+    renderCourses();
+</script>
+
+</body>
+</html>
