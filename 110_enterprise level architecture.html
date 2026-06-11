@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Enterprise Architecture Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color: white;
+}
+
+/* HEADER */
+.header {
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    background: rgba(255,255,255,0.08);
+}
+
+/* GRID */
+.container {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+/* CARDS */
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #00c6ff;
+}
+
+.status {
+    font-size: 14px;
+}
+
+/* STATUS COLORS */
+.green { color: #00c851; }
+.red { color: #ff4b5c; }
+.yellow { color: #ffb703; }
+
+/* ARCHITECTURE DIAGRAM STYLE */
+.diagram {
+    grid-column: 1 / -1;
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.boxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.box {
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.3);
+    min-width: 150px;
+}
+
+.arrow {
+    font-size: 20px;
+    margin: 0 10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="header">🏢 Enterprise Architecture Control Center</div>
+
+<div class="container">
+
+    <!-- SYSTEM STATUS -->
+    <div class="card">
+        <div class="title">API Gateway</div>
+        <div class="status green">● Active</div>
+    </div>
+
+    <div class="card">
+        <div class="title">Auth Service</div>
+        <div class="status green">● Running</div>
+    </div>
+
+    <div class="card">
+        <div class="title">User Service</div>
+        <div class="status green">● Healthy</div>
+    </div>
+
+    <div class="card">
+        <div class="title">Payment Service</div>
+        <div class="status yellow">● High Load</div>
+    </div>
+
+    <div class="card">
+        <div class="title">Database Cluster</div>
+        <div class="status green">● Stable</div>
+    </div>
+
+    <div class="card">
+        <div class="title">Cache Layer (Redis)</div>
+        <div class="status green">● Fast</div>
+    </div>
+
+    <!-- ARCHITECTURE DIAGRAM -->
+    <div class="diagram">
+
+        <h2>🏗 Enterprise Microservices Architecture</h2>
+
+        <div class="boxes">
+
+            <div class="box">Client Apps</div>
+            <div class="arrow">➡</div>
+
+            <div class="box">Load Balancer</div>
+            <div class="arrow">➡</div>
+
+            <div class="box">API Gateway</div>
+            <div class="arrow">➡</div>
+
+            <div class="box">Microservices</div>
+
+        </div>
+
+        <br>
+
+        <div class="boxes">
+
+            <div class="box">Auth Service</div>
+            <div class="box">User Service</div>
+            <div class="box">Payment Service</div>
+            <div class="box">Notification Service</div>
+
+        </div>
+
+        <br>
+
+        <div class="boxes">
+
+            <div class="box">MongoDB Cluster</div>
+            <div class="box">PostgreSQL</div>
+            <div class="box">Redis Cache</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

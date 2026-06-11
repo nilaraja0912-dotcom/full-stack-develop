@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Project Management App</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .form {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .form input, .form select {
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+        flex: 1;
+    }
+
+    .form button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
+        background: #00c6ff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .form button:hover {
+        background: #0072ff;
+    }
+
+    .board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .column {
+        background: rgba(255,255,255,0.08);
+        padding: 15px;
+        border-radius: 15px;
+        min-height: 300px;
+        backdrop-filter: blur(10px);
+    }
+
+    .column h3 {
+        text-align: center;
+    }
+
+    .task {
+        background: rgba(0,0,0,0.3);
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+    .task:hover {
+        transform: scale(1.03);
+    }
+
+    .btn {
+        margin-top: 5px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+    }
+
+    .delete {
+        background: #ff4b5c;
+    }
+
+    .move {
+        background: #00c851;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="header">🚀 Project Management App</div>
+
+<div class="container">
+
+    <!-- FORM -->
+    <div class="form">
+        <input type="text" id="task" placeholder="Enter Task">
+        <select id="status">
+            <option value="todo">To Do</option>
+            <option value="progress">In Progress</option>
+            <option value="done">Done</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <!-- BOARD -->
+    <div class="board">
+
+        <div class="column" id="todo">
+            <h3>📝 To Do</h3>
+        </div>
+
+        <div class="column" id="progress">
+            <h3>⚙ In Progress</h3>
+        </div>
+
+        <div class="column" id="done">
+            <h3>✅ Done</h3>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    let tasks = [];
+
+    function addTask() {
+        const task = document.getElementById("task").value;
+        const status = document.getElementById("status").value;
+
+        if (!task) {
+            alert("Enter task");
+            return;
+        }
+
+        tasks.push({
+            id: Date.now(),
+            name: task,
+            status: status
+        });
+
+        document.getElementById("task").value = "";
+        render();
+    }
+
+    function moveTask(id) {
+        tasks = tasks.map(t => {
+            if (t.id === id) {
+                if (t.status === "todo") t.status = "progress";
+                else if (t.status === "progress") t.status = "done";
+                else t.status = "todo";
+            }
+            return t;
+        });
+
+        render();
+    }
+
+    function deleteTask(id) {
+        tasks = tasks.filter(t => t.id !== id);
+        render();
+    }
+
+    function render() {
+        document.getElementById("todo").innerHTML = "<h3>📝 To Do</h3>";
+        document.getElementById("progress").innerHTML = "<h3>⚙ In Progress</h3>";
+        document.getElementById("done").innerHTML = "<h3>✅ Done</h3>";
+
+        tasks.forEach(t => {
+            const div = `
+                <div class="task">
+                    ${t.name}<br>
+                    <button class="btn move" onclick="moveTask(${t.id})">Move</button>
+                    <button class="btn delete" onclick="deleteTask(${t.id})">Delete</button>
+                </div>
+            `;
+
+            document.getElementById(t.status).innerHTML += div;
+        });
+    }
+
+    render();
+</script>
+
+</body>
+</html>

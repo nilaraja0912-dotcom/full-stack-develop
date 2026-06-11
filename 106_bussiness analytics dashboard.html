@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Business Analytics Dashboard</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.08);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .value {
+        font-size: 26px;
+        color: #00c6ff;
+        margin-top: 10px;
+    }
+
+    .chart-box {
+        background: rgba(255,255,255,0.08);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    canvas {
+        width: 100%;
+        height: 200px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background: rgba(0,0,0,0.4);
+    }
+
+    tr {
+        background: rgba(255,255,255,0.05);
+        transition: 0.3s;
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .up { color: #00c851; }
+    .down { color: #ff4b5c; }
+</style>
+
+</head>
+<body>
+
+<div class="header">📊 Business Analytics Dashboard</div>
+
+<div class="container">
+
+    <!-- KPI CARDS -->
+    <div class="grid">
+        <div class="card">
+            💰 Revenue
+            <div class="value">₹12,50,000</div>
+        </div>
+
+        <div class="card">
+            📈 Profit
+            <div class="value">₹4,20,000</div>
+        </div>
+
+        <div class="card">
+            👥 Customers
+            <div class="value">8,450</div>
+        </div>
+
+        <div class="card">
+            📦 Orders
+            <div class="value">2,130</div>
+        </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-box">
+        <h3>📊 Sales Trend</h3>
+        <canvas id="chart"></canvas>
+    </div>
+
+    <!-- TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Region</th>
+                <th>Sales</th>
+                <th>Growth</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>India</td>
+                <td>₹5,00,000</td>
+                <td class="up">+12%</td>
+                <td class="up">Growing</td>
+            </tr>
+
+            <tr>
+                <td>USA</td>
+                <td>₹3,20,000</td>
+                <td class="up">+8%</td>
+                <td class="up">Stable</td>
+            </tr>
+
+            <tr>
+                <td>Europe</td>
+                <td>₹2,10,000</td>
+                <td class="down">-3%</td>
+                <td class="down">Slow</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    // Simple chart using canvas
+    const canvas = document.getElementById("chart");
+    const ctx = canvas.getContext("2d");
+
+    let data = [30, 50, 40, 70, 90, 60, 80];
+
+    function drawChart() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = 200;
+
+        let barWidth = width / data.length;
+
+        data.forEach((val, i) => {
+            ctx.fillStyle = "#00c6ff";
+            ctx.fillRect(i * barWidth, height - val * 2, barWidth - 10, val * 2);
+        });
+    }
+
+    drawChart();
+</script>
+
+</body>
+</html>

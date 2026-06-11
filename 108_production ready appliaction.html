@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Production Web App Dashboard</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+
+    /* LOGIN SCREEN */
+    .login {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-box {
+        background: rgba(255,255,255,0.08);
+        padding: 30px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 300px;
+        text-align: center;
+    }
+
+    .login-box input {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .login-box button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        background: #00c6ff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* DASHBOARD */
+    .dashboard {
+        display: none;
+        height: 100vh;
+        display: flex;
+    }
+
+    .sidebar {
+        width: 220px;
+        background: rgba(0,0,0,0.4);
+        padding: 20px;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 20px;
+    }
+
+    .sidebar p {
+        margin: 15px 0;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .sidebar p:hover {
+        color: #00c6ff;
+    }
+
+    .main {
+        flex: 1;
+        padding: 20px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.08);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+
+    .value {
+        font-size: 24px;
+        color: #00c6ff;
+        margin-top: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background: rgba(0,0,0,0.4);
+    }
+
+    tr {
+        background: rgba(255,255,255,0.05);
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .logout {
+        margin-top: 20px;
+        padding: 10px;
+        background: #ff4b5c;
+        border: none;
+        color: white;
+        width: 100%;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginPage">
+    <div class="login-box">
+        <h2>Login</h2>
+        <input type="text" id="user" placeholder="Username">
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+    <div class="sidebar">
+        <h2>⚡ SaaS App</h2>
+        <p>📊 Dashboard</p>
+        <p>👥 Users</p>
+        <p>⚙ Settings</p>
+        <p>📩 Messages</p>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="main">
+
+        <h2>📊 Analytics Dashboard</h2>
+
+        <div class="cards">
+            <div class="card">
+                Revenue
+                <div class="value">₹9.2L</div>
+            </div>
+
+            <div class="card">
+                Users
+                <div class="value">12,540</div>
+            </div>
+
+            <div class="card">
+                Orders
+                <div class="value">3,240</div>
+            </div>
+
+            <div class="card">
+                Growth
+                <div class="value">+18%</div>
+            </div>
+        </div>
+
+        <h3>👥 Recent Users</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Nila</td>
+                    <td>nila@mail.com</td>
+                    <td>Active</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>Arjun</td>
+                    <td>arjun@mail.com</td>
+                    <td>Inactive</td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>Kumar</td>
+                    <td>kumar@mail.com</td>
+                    <td>Active</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+    function login() {
+        let u = document.getElementById("user").value;
+        let p = document.getElementById("pass").value;
+
+        if (u && p) {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("dashboard").style.display = "flex";
+        } else {
+            alert("Enter credentials");
+        }
+    }
+
+    function logout() {
+        document.getElementById("dashboard").style.display = "none";
+        document.getElementById("loginPage").style.display = "flex";
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Developer Documentation</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+/* LAYOUT */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    color: #00c6ff;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background: rgba(0,198,255,0.2);
+}
+
+/* MAIN CONTENT */
+.main {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* HEADER */
+.header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* SEARCH */
+.search {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* SECTIONS */
+.section {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.section:hover {
+    transform: scale(1.01);
+}
+
+/* CODE BLOCK */
+pre {
+    background: #111827;
+    padding: 15px;
+    border-radius: 10px;
+    overflow-x: auto;
+    color: #00ffcc;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>📘 Docs</h2>
+        <a href="#overview">Overview</a>
+        <a href="#setup">Setup</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#api">API Reference</a>
+        <a href="#deployment">Deployment</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <div class="header">Developer Documentation</div>
+
+        <input class="search" placeholder="Search documentation...">
+
+        <!-- OVERVIEW -->
+        <div class="section" id="overview">
+            <h2>📌 Overview</h2>
+            <p>
+                This system is a scalable full-stack enterprise application
+                built using microservices architecture.
+            </p>
+        </div>
+
+        <!-- SETUP -->
+        <div class="section" id="setup">
+            <h2>⚙ Setup</h2>
+
+<pre>
+# Install dependencies
+npm install
+
+# Run server
+node server.js
+
+# Start frontend
+open index.html
+</pre>
+
+        </div>
+
+        <!-- ARCHITECTURE -->
+        <div class="section" id="architecture">
+            <h2>🏗 Architecture</h2>
+
+<pre>
+Frontend → API Gateway → Microservices → Database Cluster
+        React       Node.js        MongoDB / PostgreSQL
+</pre>
+
+        </div>
+
+        <!-- API -->
+        <div class="section" id="api">
+            <h2>🔗 API Reference</h2>
+
+<pre>
+GET /api/users
+POST /api/login
+GET /api/dashboard
+DELETE /api/user/:id
+</pre>
+
+        </div>
+
+        <!-- DEPLOYMENT -->
+        <div class="section" id="deployment">
+            <h2>🚀 Deployment</h2>
+
+<pre>
+Docker:
+docker build -t app .
+docker run -p 3000:3000 app
+
+AWS:
+- Deploy on EC2
+- Use S3 for frontend
+- RDS for database
+</pre>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

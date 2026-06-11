@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Production Deployment Console</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color: white;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    background: rgba(255,255,255,0.08);
+}
+
+/* GRID */
+.container {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.08);
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.status {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.green { color: #00c851; }
+.yellow { color: #ffb703; }
+.red { color: #ff4b5c; }
+
+/* BUTTON */
+.btn {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background: #00c6ff;
+    color: white;
+    cursor: pointer;
+}
+
+/* PIPELINE */
+.pipeline {
+    grid-column: 1 / -1;
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.step {
+    padding: 10px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    min-width: 120px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">🚀 Production Deployment Console</div>
+
+<div class="container">
+
+    <!-- STATUS CARDS -->
+    <div class="card">
+        🌐 Frontend Server
+        <div class="status green">● Running (Vercel)</div>
+    </div>
+
+    <div class="card">
+        ⚙ Backend API
+        <div class="status green">● Active (Node.js)</div>
+    </div>
+
+    <div class="card">
+        🗄 Database
+        <div class="status green">● MongoDB Cluster</div>
+    </div>
+
+    <div class="card">
+        ☁ Cloud Provider
+        <div class="status green">● AWS Connected</div>
+    </div>
+
+    <div class="card">
+        🔐 Security
+        <div class="status yellow">● SSL Pending</div>
+    </div>
+
+    <div class="card">
+        📊 Monitoring
+        <div class="status green">● Live Metrics ON</div>
+    </div>
+
+    <!-- DEPLOY BUTTON -->
+    <div class="card">
+        🚀 Deploy Application
+        <button class="btn" onclick="deploy()">Deploy Now</button>
+        <div id="msg"></div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="pipeline">
+        <h2>CI/CD Pipeline</h2>
+
+        <div class="steps">
+            <div class="step">Code Push</div>
+            <div class="step">Build</div>
+            <div class="step">Test</div>
+            <div class="step">Docker Build</div>
+            <div class="step">Deploy</div>
+            <div class="step">Live</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function deploy() {
+    document.getElementById("msg").innerHTML =
+        "🚀 Deploying to production... (simulated)";
+
+    setTimeout(() => {
+        document.getElementById("msg").innerHTML =
+            "✅ Deployment Successful!";
+    }, 2000);
+}
+</script>
+
+</body>
+</html>

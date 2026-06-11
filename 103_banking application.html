@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Banking Application</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #141e30, #243b55);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.08);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .balance {
+        font-size: 28px;
+        color: #00c6ff;
+        margin-top: 10px;
+    }
+
+    .form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .form input {
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+        flex: 1;
+    }
+
+    .form button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+    }
+
+    .deposit { background: #00c851; }
+    .withdraw { background: #ff4b5c; }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background: rgba(0,0,0,0.4);
+    }
+
+    tr {
+        background: rgba(255,255,255,0.05);
+        transition: 0.3s;
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .credit { color: #00c851; }
+    .debit { color: #ff4b5c; }
+</style>
+
+</head>
+<body>
+
+<div class="header">🏦 Banking Application Dashboard</div>
+
+<div class="container">
+
+    <!-- CARDS -->
+    <div class="cards">
+        <div class="card">
+            💰 Account Balance
+            <div class="balance">₹<span id="balance">5000</span></div>
+        </div>
+
+        <div class="card">
+            📊 Total Deposits
+            <div class="balance" id="deposits">0</div>
+        </div>
+
+        <div class="card">
+            📉 Total Withdrawals
+            <div class="balance" id="withdrawals">0</div>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form">
+        <input type="number" id="amount" placeholder="Enter Amount">
+        <button class="deposit" onclick="deposit()">Deposit</button>
+        <button class="withdraw" onclick="withdraw()">Withdraw</button>
+    </div>
+
+    <!-- TRANSACTIONS -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody id="transactionTable"></tbody>
+    </table>
+
+</div>
+
+<script>
+    let balance = 5000;
+    let deposits = 0;
+    let withdrawals = 0;
+    let transactions = [];
+
+    function updateUI() {
+        document.getElementById("balance").innerText = balance;
+        document.getElementById("deposits").innerText = deposits;
+        document.getElementById("withdrawals").innerText = withdrawals;
+    }
+
+    function deposit() {
+        let amt = Number(document.getElementById("amount").value);
+
+        if (!amt || amt <= 0) {
+            alert("Enter valid amount");
+            return;
+        }
+
+        balance += amt;
+        deposits += amt;
+
+        transactions.push({
+            id: transactions.length + 1,
+            type: "Credit",
+            amount: amt,
+            balance: balance
+        });
+
+        document.getElementById("amount").value = "";
+        renderTable();
+        updateUI();
+    }
+
+    function withdraw() {
+        let amt = Number(document.getElementById("amount").value);
+
+        if (!amt || amt <= 0) {
+            alert("Enter valid amount");
+            return;
+        }
+
+        if (amt > balance) {
+            alert("Insufficient Balance!");
+            return;
+        }
+
+        balance -= amt;
+        withdrawals += amt;
+
+        transactions.push({
+            id: transactions.length + 1,
+            type: "Debit",
+            amount: amt,
+            balance: balance
+        });
+
+        document.getElementById("amount").value = "";
+        renderTable();
+        updateUI();
+    }
+
+    function renderTable() {
+        const table = document.getElementById("transactionTable");
+        table.innerHTML = "";
+
+        transactions.forEach(t => {
+            table.innerHTML += `
+                <tr>
+                    <td>${t.id}</td>
+                    <td class="${t.type === 'Credit' ? 'credit' : 'debit'}">${t.type}</td>
+                    <td>₹${t.amount}</td>
+                    <td>₹${t.balance}</td>
+                </tr>
+            `;
+        });
+    }
+
+    updateUI();
+    renderTable();
+</script>
+
+</body>
+</html>

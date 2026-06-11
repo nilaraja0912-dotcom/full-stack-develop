@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Healthcare Management System</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .form {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .form input, .form select {
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    .form button {
+        grid-column: span 3;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: #00c6ff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .form button:hover {
+        background: #0072ff;
+        transform: scale(1.03);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background: rgba(0,0,0,0.4);
+    }
+
+    tr {
+        background: rgba(255,255,255,0.05);
+        transition: 0.3s;
+    }
+
+    tr:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+    }
+
+    .checked { background: #00c851; }
+    .pending { background: #ffb703; }
+    .critical { background: #ff4b5c; }
+
+    .delete-btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 8px;
+        background: #ff4b5c;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .delete-btn:hover {
+        background: #ff1e3c;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="header">🏥 Healthcare Management System</div>
+
+<div class="container">
+
+    <!-- FORM -->
+    <div class="form">
+        <input type="text" id="name" placeholder="Patient Name">
+        <input type="text" id="age" placeholder="Age">
+        <input type="text" id="disease" placeholder="Disease">
+
+        <input type="text" id="doctor" placeholder="Doctor Assigned">
+        <input type="date" id="date">
+        <select id="status">
+            <option value="Pending">Pending</option>
+            <option value="Checked">Checked</option>
+            <option value="Critical">Critical</option>
+        </select>
+
+        <button onclick="addPatient()">Add Patient</button>
+    </div>
+
+    <!-- TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Disease</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="patientTable"></tbody>
+    </table>
+
+</div>
+
+<script>
+    let patients = [
+        { id: 1, name: "Nila", age: 21, disease: "Fever", doctor: "Dr. Rao", date: "2026-06-01", status: "Checked" },
+        { id: 2, name: "pawya", age: 30, disease: "Diabetes", doctor: "Dr. Meena", date: "2026-06-02", status: "Pending" }
+    ];
+
+    function renderPatients() {
+        const table = document.getElementById("patientTable");
+        table.innerHTML = "";
+
+        patients.forEach(p => {
+            table.innerHTML += `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.age}</td>
+                    <td>${p.disease}</td>
+                    <td>${p.doctor}</td>
+                    <td>${p.date}</td>
+                    <td>
+                        <span class="badge ${p.status.toLowerCase()}">
+                            ${p.status}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="delete-btn" onclick="deletePatient(${p.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function addPatient() {
+        const name = document.getElementById("name").value;
+        const age = document.getElementById("age").value;
+        const disease = document.getElementById("disease").value;
+        const doctor = document.getElementById("doctor").value;
+        const date = document.getElementById("date").value;
+        const status = document.getElementById("status").value;
+
+        if (!name || !age || !disease || !doctor || !date) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        patients.push({
+            id: patients.length + 1,
+            name,
+            age,
+            disease,
+            doctor,
+            date,
+            status
+        });
+
+        document.getElementById("name").value = "";
+        document.getElementById("age").value = "";
+        document.getElementById("disease").value = "";
+        document.getElementById("doctor").value = "";
+        document.getElementById("date").value = "";
+
+        renderPatients();
+    }
+
+    function deletePatient(id) {
+        patients = patients.filter(p => p.id !== id);
+        renderPatients();
+    }
+
+    renderPatients();
+</script>
+
+</body>
+</html>
